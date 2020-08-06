@@ -1,0 +1,1 @@
+full_string_regex = "(?P<key>[\s\d\w().+-_',:&]+)/$"
