@@ -21,7 +21,7 @@ from rest_framework_simplejwt import views as jwt_views
 from django.contrib.auth import views as auth_view
 from allauth.account.views import confirm_email
 from allauth.account.views import ConfirmEmailView
-from user_login_register.views import CustomConfirmEmailView, ConfirmEmailView, signup, profile, activate
+from user_login_register.views import CustomConfirmEmailView, ConfirmEmailView, signup, profile, activate, home_view
 from django.views.generic.base import TemplateView, TemplateResponseMixin, RedirectView
 from . import regex
 from rest_auth.registration.views import VerifyEmailView
@@ -30,17 +30,26 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
+from rest_auth.views import LogoutView
 
+from transaction.views import transaction_view
+from rest_framework import routers
+from rest_framework.routers import DefaultRouter
+
+router = routers.DefaultRouter(trailing_slash=False)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^transaction/', include('transaction.urls')),
+    path('', home_view, name="home"),
+    re_path(r'^transaction/', transaction_view, name="transaction"),
     re_path(r'user_login_register/', include('user_login_register.urls')),
     re_path('auth/', include('rest_framework.urls')),
+    path('rest-auth/logout/', LogoutView, name="rest_logout"),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
+    
     re_path(r'^rest-auth/', include('rest_auth.urls')),
     re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    
+
 ]

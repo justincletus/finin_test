@@ -4,12 +4,17 @@ from finin_test.gmail_client import EmailFn
 import re
 from finin_test.utils import removeHtmlTag
 from bs4 import BeautifulSoup
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 
-def test_view(request, *args, **kwargs):
+@api_view(['GET'])
+def transaction_view(request):
+    if request.method == "GET":
+        print('HELLO') 
 
     e_client = EmailFn()
-    messages = e_client.send_email_test()
+    messages = e_client.send_email_test()   
 
     data1 = []
 
@@ -24,5 +29,8 @@ def test_view(request, *args, **kwargs):
     data = {
         'data': messages
     }
+    print(data)
 
-    return JsonResponse(data)
+    # return Response(data)
+
+    return JsonResponse(data, safe=False)

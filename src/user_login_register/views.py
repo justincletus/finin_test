@@ -30,6 +30,10 @@ from rest_framework import response, decorators, permissions, status
 from .serializers import UserCreateSerializer
 
 
+def home_view(request, *args, **kwargs):
+    user = request.user
+    
+    return render(request, 'home.html')
 
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -65,7 +69,6 @@ def signup(request, *args, **kwargs):
     user.profile.is_active = False
     token = account_activation_token.make_token(user)             
     user.profile.token = token
-    # user.profile.mobile=form_detail['mobile']
     user.is_active = False           
     user.profile.save()
     
@@ -92,41 +95,7 @@ def signup(request, *args, **kwargs):
 
     return Response(res, status.HTTP_201_CREATED)
 
-    # if request.method == "POST":
-    #     form = SignupForm(request.POST)
-    #     form_detail = request.POST.dict()        
-    #     if form.is_valid():            
-    #         user = save(request, form)
-    #         user.refresh_from_db()            
-    #         user.profile.is_active = False
-    #         token = account_activation_token.make_token(user)             
-    #         user.profile.token = token
-    #         user.profile.mobile=form_detail['mobile']
-    #         user.is_active = False           
-    #         user.profile.save()
-            
-    #         current_site = get_current_site(request)
-    #         mail_subject = 'Activate your account.'
-    #         message = render_to_string('core/acc_active_email.html', {
-    #             'user': user,
-    #             'domain': current_site.domain,
-    #             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-    #             'token': token,
-    #         })
-            
-    #         to_email = form.cleaned_data.get('email')
-    #         email = EmailMessage(
-    #                     mail_subject, message, to=[to_email]
-    #         )
-    #         email.content_subtype = "html"
-    #         email.send()
-    #         context = {
-    #             "message": "Please confirm your email address to complete the registration."
-    #         }
-    #         return render(request, 'core/send_email.html', context)
-    # else:
-    #     form = SignupForm()
-    # return render(request, 'signup.html', {'form': form})
+    
 
 def save(request, form):
     username = email = form.cleaned_data.get('email')

@@ -5,5 +5,5 @@ from . import views
 app_name = 'transaction'
 
 urlpatterns = [
-    re_path('', views.test_view, name="test"),
+    # re_path(r'^detail/', views.test_view, name="test"),
 ]

@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '35.168.7.112',
     'ec2-35-168-7-112.compute-1.amazonaws.com',
+    '127.0.0.1',
 ]
 
 
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
+    'django_extensions',
 
 ]
 
