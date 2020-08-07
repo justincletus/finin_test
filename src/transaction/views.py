@@ -9,9 +9,7 @@ from rest_framework.decorators import api_view
 
 
 @api_view(['GET'])
-def transaction_view(request):
-    if request.method == "GET":
-        print('HELLO') 
+def transaction_view(request):     
 
     e_client = EmailFn()
     messages = e_client.send_email_test()   
